@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Additional Script to simplify usage of HHVM
+# Simply use as if you were using php, though file piping seems to be broken
+
+LD_LIBRARY_PATH=${OPENSHIFT_PHP_DIR}usr/bin  ${OPENSHIFT_PHP_DIR}usr/bin/hhvm  --config ${OPENSHIFT_REPO_DIR}config/hhvm.d/config.ini $@

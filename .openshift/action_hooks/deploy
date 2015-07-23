@@ -1,0 +1,64 @@
+#!/bin/bash
+
+echo "============ Cachet + HHVM + NGINX now deploying ============"
+source $OPENSHIFT_PHP_DIR/lib/util
+
+## OpenShift MySQL Vars
+echo "$OPENSHIFT_MYSQL_DB_HOST" > ~/.env/user_vars/DB_HOST
+echo "$OPENSHIFT_APP_NAME" > ~/.env/user_vars/DB_DATABASE
+echo "$OPENSHIFT_MYSQL_DB_USERNAME" > ~/.env/user_vars/DB_USERNAME
+echo "$OPENSHIFT_MYSQL_DB_PASSWORD" > ~/.env/user_vars/DB_PASSWORD
+echo "$OPENSHIFT_MYSQL_DB_PORT" > ~/.env/user_vars/DB_PORT
+
+export DB_HOST=$OPENSHIFT_MYSQL_DB_HOST
+export DB_DATABASE=$OPENSHIFT_APP_NAME
+export DB_USERNAME=$OPENSHIFT_MYSQL_DB_USERNAME
+export DB_PASSWORD=$OPENSHIFT_MYSQL_DB_PASSWORD
+export DB_PORT=$OPENSHIFT_MYSQL_DB_PORT
+
+## Cachet Download Link and Version
+if [ ! -d $OPENSHIFT_REPO_DIR/Cachet ]; then
+	CACHET_DL_LINK=$(curl -s https://github.com/cachethq/Cachet/releases | grep "tar.gz" | head -n 1 | sed -e 's/^.*"\///;s/".*//')
+	CACHET_DL_VERSION=$(echo $CACHET_DL_LINK | awk -F/ '{print $NF}')
+
+	echo "Downloading Cachet..."
+	curl -L https://github.com/$(echo $CACHET_DL_LINK) > $OPENSHIFT_DATA_DIR/$CACHET_DL_VERSION
+
+	echo "Extracting Cachet..."
+	tar xvf $OPENSHIFT_DATA_DIR/$CACHET_DL_VERSION -C $OPENSHIFT_DATA_DIR
+	mv $OPENSHIFT_DATA_DIR/Cachet-* $OPENSHIFT_REPO_DIR/Cachet
+fi
+
+## Create bin dir
+if [ ! -d $OPENSHIFT_DATA_DIR/bin ]; then
+	mkdir $OPENSHIFT_DATA_DIR/bin
+fi
+
+## Set $PATH to bin dir
+PATH=$OPENSHIFT_DATA_DIR/bin:/bin:/usr/bin:/usr/sbin
+
+## Add wrapper for HHVM so that stuff can simply be executed as "php"
+if [ ! -f $OPENSHIFT_DATA_DIR/bin/php ]; then
+	cp $OPENSHIFT_REPO_DIR/.openshift/data/php $OPENSHIFT_DATA_DIR/bin/php
+fi
+
+## Install composer
+if [ ! -f $OPENSHIFT_DATA_DIR/bin/composer.phar ]; then
+	curl -L https://getcomposer.org/composer.phar > $OPENSHIFT_DATA_DIR/bin/composer.phar
+fi
+
+## Copy env
+cp $OPENSHIFT_REPO_DIR/env $OPENSHIFT_REPO_DIR/Cachet/.env
+
+## Composer install
+php composer.phar install --no-dev -o
+
+## Migrate Database
+php artisan migrate
+
+## Generate Key
+php artisan key:generate
+
+# both nginx and phpfpm configs are rebuilt every deploy
+build_nginx_config & build_phpfpm_config
+
