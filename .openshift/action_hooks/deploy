@@ -51,6 +51,10 @@ fi
 cp $OPENSHIFT_REPO_DIR/env $OPENSHIFT_REPO_DIR/Cachet/.env
 cd $OPENSHIFT_REPO_DIR/Cachet
 
+## Start HHVM/NGINX
+build_nginx_config & build_phpfpm_config
+OPENSHIFT_PHP_DIR/bin/control start
+
 ## Composer install
 $OPENSHIFT_DATA_DIR/bin/php $OPENSHIFT_DATA_DIR/bin/composer.phar install --no-dev -o
 
@@ -59,7 +63,3 @@ $OPENSHIFT_DATA_DIR/bin/php artisan migrate
 
 ## Generate Key
 $OPENSHIFT_DATA_DIR/bin/php artisan key:generate
-
-# both nginx and phpfpm configs are rebuilt every deploy
-build_nginx_config & build_phpfpm_config
-
