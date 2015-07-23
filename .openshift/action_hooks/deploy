@@ -3,6 +3,10 @@
 echo "============ Cachet + HHVM + NGINX now deploying ============"
 source $OPENSHIFT_PHP_DIR/lib/util
 
+## Start HHVM/NGINX
+build_nginx_config & build_phpfpm_config
+$OPENSHIFT_PHP_DIR/bin/control start
+
 ## OpenShift MySQL Vars
 echo "$OPENSHIFT_MYSQL_DB_HOST" > ~/.env/user_vars/DB_HOST
 echo "$OPENSHIFT_APP_NAME" > ~/.env/user_vars/DB_DATABASE
@@ -50,10 +54,6 @@ fi
 ## Copy env
 cp $OPENSHIFT_REPO_DIR/env $OPENSHIFT_REPO_DIR/Cachet/.env
 cd $OPENSHIFT_REPO_DIR/Cachet
-
-## Start HHVM/NGINX
-build_nginx_config & build_phpfpm_config
-OPENSHIFT_PHP_DIR/bin/control start
 
 ## Composer install
 $OPENSHIFT_DATA_DIR/bin/php $OPENSHIFT_DATA_DIR/bin/composer.phar install --no-dev -o
