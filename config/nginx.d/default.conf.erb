@@ -20,18 +20,7 @@ server {
         include        openshift_params;
 
         # uncomment to export all environment variables to fastcgi
-        #include        <%= ENV['OPENSHIFT_REPO_DIR'] %>/config/nginx.d/export_env;
-    }
-
-    # avoid unnecessary log
-    location = /favicon.ico {
-        access_log off;
-        log_not_found off;
-    }
-
-    location = /robots.txt {
-        access_log off;
-        log_not_found off;
+        include        <%= ENV['OPENSHIFT_REPO_DIR'] %>/config/nginx.d/export_env;
     }
 
     # Handle any other URI

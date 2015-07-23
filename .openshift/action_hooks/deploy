@@ -49,6 +49,7 @@ fi
 
 ## Copy env
 cp $OPENSHIFT_REPO_DIR/env $OPENSHIFT_REPO_DIR/Cachet/.env
+cd $OPENSHIFT_REPO_DIR/Cachet
 
 ## Composer install
 php composer.phar install --no-dev -o
