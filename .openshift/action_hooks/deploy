@@ -41,6 +41,9 @@ fi
 ## Set $PATH to bin dir
 PATH=$OPENSHIFT_DATA_DIR/bin:/bin:/usr/bin:/usr/sbin
 
+## Upgrade Script
+cp $OPENSHIFT_REPO_DIR/.openshift/data/upgrade $OPENSHIFT_DATA_DIR/bin/upgrade
+
 ## Add wrapper for HHVM so that stuff can simply be executed as "php"
 if [ ! -f $OPENSHIFT_DATA_DIR/bin/php ]; then
 	cp $OPENSHIFT_REPO_DIR/.openshift/data/php $OPENSHIFT_DATA_DIR/bin/php

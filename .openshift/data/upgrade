@@ -1,0 +1,49 @@
+#!/bin/bash
+
+## Set $PATH to bin dir
+PATH=$OPENSHIFT_DATA_DIR/bin:/bin:/usr/bin:/usr/sbin
+
+CACHET_DL_LINK=$(curl -s https://github.com/cachethq/Cachet/releases | grep "tar.gz" | head -n 1 | sed -e 's/^.*"\///;s/".*//')
+CACHET_DL_VERSION=$(echo $CACHET_DL_LINK | awk -F/ '{print $NF}')
+
+cd $OPENSHIFT_DATA_DIR
+
+if [ ! -f $OPENSHIFT_DATA_DIR/$CACHET_DL_VERSION ]; then
+	# Backups
+	echo -n "Do you want to create a backup? [Y/n] "
+	read backupchoice
+	case $backupchoice in
+
+		[yY] | [yY][Ee][Ss] )
+                	echo "Creating Backup at $OPENSHIFT_DATA_DIR..."
+			tar czf $OPENSHIFT_DATA_DIR/backup-$(date +"%m-%d-%y").tar.gz $OPENSHIFT_REPO_DIR/Cachet
+               		 ;;
+
+	        [nN] | [n|N][O|o] )
+        	        echo "No backup will be created..."
+                	;;
+	        *) echo "Invalid input"
+			exit 1
+        		;;
+	esac
+	# Copy old env
+	cp $OPENSHIFT_REPO_DIR/Cachet/.env $OPENSHIFT_REPO_DIR/env
+	rm -rf /OPENSHIFT_REPO_DIR/Cachet
+
+	# Remove old Cachet
+	rm -rf $OPENSHIFT_REPO_DIR/Cachet
+        rm $OPENSHIFT_DATA_DIR/*.tar.gz
+        wget http://github.com/$CACHET_DL_LINK -O $CACHET_DL_VERSION
+        tar xvf $CACHET_DL_VERSION
+
+	# Install new Cachet
+	mv $OPENSHIFT_DATA_DIR/Cachet-* $OPENSHIFT_REPO_DIR/Cachet
+	cp $OPENSHIFT_REPO_DIR/env $OPENSHIFT_REPO_DIR/Cachet/.env
+	cd $OPENSHIFT_REPO_DIR/Cachet/
+	$OPENSHIFT_DATA_DIR/bin/php $OPENSHIFT_DATA_DIR/bin/composer.phar install --no-dev -o
+
+	## Migrate Database
+	$OPENSHIFT_DATA_DIR/bin/php artisan migrate
+else
+	echo "Upgrade not required, up to date"
+fi
