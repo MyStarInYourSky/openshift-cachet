@@ -22,7 +22,7 @@ export DB_PORT=$OPENSHIFT_MYSQL_DB_PORT
 
 ## Cachet Download Link and Version
 if [ ! -d $OPENSHIFT_REPO_DIR/Cachet ]; then
-	CACHET_DL_LINK=$(curl -s https://github.com/cachethq/Cachet/releases | grep "tar.gz" | head -n 1 | sed -e 's/^.*"\///;s/".*//')
+	CACHET_DL_LINK=$(curl -s https://github.com/cachethq/Cachet/releases | grep "tar.gz" | grep -v "beta\|strong" | head -n 1 | sed -e 's/^.*"\///;s/".*//')
 	CACHET_DL_VERSION=$(echo $CACHET_DL_LINK | awk -F/ '{print $NF}')
 
 	echo "Downloading Cachet..."
