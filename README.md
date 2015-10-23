@@ -8,3 +8,7 @@ To install, just click the OpenShift button above.
 ## Upgrading
 There is an experimental script called 'upgrade' in $OPENSHIFT_DATA_DIR/bin
 Note that the script is experimental and may cause issues with your installation.
+
+## Warning
+This repo does not work with Cachet v2, work is being done to make it compatible.
+At this time, the repo will download the latest v1 version only.
