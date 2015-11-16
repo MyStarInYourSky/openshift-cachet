@@ -34,6 +34,10 @@ if [ ! -d $OPENSHIFT_REPO_DIR/Cachet ]; then
 	mv $OPENSHIFT_DATA_DIR/Cachet-* $OPENSHIFT_REPO_DIR/Cachet
 fi
 
+## Fix Cachet compser.json paths
+sed -i -e "s#php artisan#$OPENSHIFT_PHP_VERSION_DIR/bin/php artisan#g" $OPENSHIFT_REPO_DIR/Cachet/composer.json
+sed -i -e "s#php -r#$OPENSHIFT_PHP_VERSION_DIR/bin/php -r#g" $OPENSHIFT_REPO_DIR/Cachet/composer.json
+
 ## Create bin dir
 if [ ! -d $OPENSHIFT_DATA_DIR/bin ]; then
 	mkdir $OPENSHIFT_DATA_DIR/bin
