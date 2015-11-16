@@ -28,10 +28,10 @@ gzip_vary           on;
 
 server {
 	listen  <%= ENV['OPENSHIFT_NGINX_IP'] %>:<%= ENV['OPENSHIFT_NGINX_PORT'] %>;
-	root    <%= ENV['OPENSHIFT_REPO_DIR'] %>/public;
+	root    <%= ENV['OPENSHIFT_REPO_DIR'] %>/Cachet/public;
 
 	location / {
-		index  index.html index.htm;
+		index index.html index.htm index.php;
 	}
 
 	# pass the PHP scripts to PHP-FPM
