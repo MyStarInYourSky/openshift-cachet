@@ -17,7 +17,7 @@ export DB_PASSWORD=$OPENSHIFT_MYSQL_DB_PASSWORD
 export DB_PORT=$OPENSHIFT_MYSQL_DB_PORT
 
 ## Set Functions
-export PATH=$OPENSHIFT_PHP_VERSION_DIR/bin:$OPENSHIFT_DATA_DIR/bin:/bin:/usr/bin:/usr/sbin
+export PATH="$OPENSHIFT_PHP_VERSION_DIR/bin:$OPENSHIFT_DATA_DIR/bin:/bin:/usr/bin:/usr/sbin"
 #function php() { $OPENSHIFT_PHP_VERSION_DIR/bin/php "$@" ;}
 #function composer () { $OPENSHIFT_PHP_VERSION_DIR/bin/php $OPENSHIFT_DATA_DIR/bin/composer.phar "$@" ;}
 
