@@ -18,7 +18,7 @@ export DB_PORT=$OPENSHIFT_MYSQL_DB_PORT
 
 ## Set Functions
 function php() { $OPENSHIFT_PHP_VERSION_DIR/bin/php "$@" ;}
-function composer () { $OPENSHIFT_PHP_VERSION_DIR/bin/php $OPENSHIFT_DATA_DIR/bin/composer.phar }
+function composer () { $OPENSHIFT_PHP_VERSION_DIR/bin/php $OPENSHIFT_DATA_DIR/bin/composer.phar ;}
 
 ## Cachet Download Link and Version
 if [ ! -d $OPENSHIFT_REPO_DIR/Cachet ]; then
