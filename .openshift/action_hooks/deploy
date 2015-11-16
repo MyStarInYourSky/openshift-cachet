@@ -50,10 +50,10 @@ cp $OPENSHIFT_REPO_DIR/env $OPENSHIFT_REPO_DIR/Cachet/.env
 cd $OPENSHIFT_REPO_DIR/Cachet
 
 ## Composer install
-#$OPENSHIFT_DATA_DIR/bin/php $OPENSHIFT_DATA_DIR/bin/composer.phar install --no-dev -o
+composer install --no-dev -o
 
 ## Migrate Database
-#$OPENSHIFT_DATA_DIR/bin/php artisan migrate
+php artisan migrate
 
 ## Generate Key
-#$OPENSHIFT_DATA_DIR/bin/php artisan key:generate
+php artisan key:generate
