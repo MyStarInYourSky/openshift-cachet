@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "============ Cachet + HHVM + NGINX now deploying ============"
+echo "============ Cachet + PHP5-FPM + NGINX now deploying ============"
 source $OPENSHIFT_PHP_DIR/lib/util
 
 ## Start HHVM/NGINX
@@ -44,11 +44,6 @@ PATH=$OPENSHIFT_DATA_DIR/bin:/bin:/usr/bin:/usr/sbin
 ## Upgrade Script
 cp $OPENSHIFT_REPO_DIR/.openshift/data/upgrade $OPENSHIFT_DATA_DIR/bin/upgrade
 
-## Add wrapper for HHVM so that stuff can simply be executed as "php"
-if [ ! -f $OPENSHIFT_DATA_DIR/bin/php ]; then
-	cp $OPENSHIFT_REPO_DIR/.openshift/data/php $OPENSHIFT_DATA_DIR/bin/php
-fi
-
 ## Install composer
 if [ ! -f $OPENSHIFT_DATA_DIR/bin/composer.phar ]; then
 	curl -L https://getcomposer.org/composer.phar > $OPENSHIFT_DATA_DIR/bin/composer.phar
@@ -59,10 +54,10 @@ cp $OPENSHIFT_REPO_DIR/env $OPENSHIFT_REPO_DIR/Cachet/.env
 cd $OPENSHIFT_REPO_DIR/Cachet
 
 ## Composer install
-$OPENSHIFT_DATA_DIR/bin/php $OPENSHIFT_DATA_DIR/bin/composer.phar install --no-dev -o
+#$OPENSHIFT_DATA_DIR/bin/php $OPENSHIFT_DATA_DIR/bin/composer.phar install --no-dev -o
 
 ## Migrate Database
-$OPENSHIFT_DATA_DIR/bin/php artisan migrate
+#$OPENSHIFT_DATA_DIR/bin/php artisan migrate
 
 ## Generate Key
-$OPENSHIFT_DATA_DIR/bin/php artisan key:generate
+#$OPENSHIFT_DATA_DIR/bin/php artisan key:generate
