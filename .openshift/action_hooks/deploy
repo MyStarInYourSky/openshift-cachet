@@ -3,10 +3,6 @@
 echo "============ Cachet + PHP5-FPM + NGINX now deploying ============"
 source $OPENSHIFT_PHP_DIR/lib/util
 
-## Start HHVM/NGINX
-build_nginx_config & build_phpfpm_config
-$OPENSHIFT_PHP_DIR/bin/control start
-
 ## OpenShift MySQL Vars
 echo "$OPENSHIFT_MYSQL_DB_HOST" > ~/.env/user_vars/DB_HOST
 echo "$OPENSHIFT_APP_NAME" > ~/.env/user_vars/DB_DATABASE
