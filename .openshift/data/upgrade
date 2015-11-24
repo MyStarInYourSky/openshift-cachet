@@ -20,12 +20,11 @@ backup() {
 }
 
 upgrade() {
-	echo "Performing Upgrade..."
-	## Check for upgrade
-	## Remove original Cachet install
-	## Extract new Cachet install to repo
-	## Composer
-	## Migrate tables
+	if [[ $UPGRADE_AVAILABLE != True ]]; then
+		echo "No Upgrade Available"
+	else
+		echo "Performing Upgrade..."
+	fi
 }
 
 ## Output some nice ASCII
@@ -48,8 +47,10 @@ echo "Latest Supported Version: $CACHET_DL_VERSION"
 ## Can we upgrade?
 if [[ $CACHET_VERSION < $CACHET_DL_VERSION ]]; then
 	echo "Upgrade Status: Upgrade Avaliable"
+	UPGRADE_AVAILABLE = True
 else
 	echo "Upgrade Status:No Upgrade Avaliable"
+	UPGRADE_AVAILABLE = False
 fi
 echo ""
 echo "Note from ALinuxNinja: Cachet v2 is not supported yet, support is coming soon!"
