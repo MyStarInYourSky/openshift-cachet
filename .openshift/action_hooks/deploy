@@ -28,12 +28,12 @@ if [ ! -d $OPENSHIFT_REPO_DIR/Cachet ]; then
 	echo "$CACHET_DL_VERSION" > ~/.env/user_vars/CACHET_VERSION
 
 	echo "Downloading Cachet..."
-	curl -L https://github.com/$(echo $CACHET_DL_LINK) > $OPENSHIFT_DATA_DIR/$CACHET_DL_VERSION
+	curl -L https://github.com/$(echo $CACHET_DL_LINK) > $OPENSHIFT_DATA_DIR/Cachet.tar.gz
 
 	echo "Extracting Cachet..."
-	tar xvf $OPENSHIFT_DATA_DIR/$CACHET_DL_VERSION -C $OPENSHIFT_DATA_DIR
+	tar xvf $OPENSHIFT_DATA_DIR/Cachet.tar.gz -C $OPENSHIFT_DATA_DIR
 	mv $OPENSHIFT_DATA_DIR/Cachet-* $OPENSHIFT_REPO_DIR/Cachet
-	rm $OPENSHIFT_DATA_DIR/$CACHET_DL_VERSION
+	rm $OPENSHIFT_DATA_DIR/Cachet.tar.gz
 fi
 
 ## Fix Cachet compser.json paths
