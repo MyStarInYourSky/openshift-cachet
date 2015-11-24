@@ -48,8 +48,8 @@ fi
 ## Set $PATH to bin dir
 PATH=$OPENSHIFT_DATA_DIR/bin:/bin:/usr/bin:/usr/sbin
 
-## Upgrade Script
-cp $OPENSHIFT_REPO_DIR/.openshift/data/upgrade $OPENSHIFT_DATA_DIR/bin/upgrade
+## mgmutil Script
+cp $OPENSHIFT_REPO_DIR/.openshift/data/mgmutil $OPENSHIFT_DATA_DIR/bin/mgmutil
 
 ## Install composer
 if [ ! -f $OPENSHIFT_DATA_DIR/bin/composer.phar ]; then
