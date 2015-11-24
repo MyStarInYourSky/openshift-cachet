@@ -9,8 +9,14 @@ Cachet for OpenShift automatically downloads the latest version of Cachet 1.x an
 To install, just click the OpenShift button above.
 
 ## Upgrading
-There is an experimental script called 'upgrade' in $OPENSHIFT_DATA_DIR/bin
+There is an experimental script called 'mgmutil' in $OPENSHIFT_DATA_DIR/bin
 Note that the script is experimental and may cause issues with your installation.
+
+## Backup and Restore
+Mgmutil, located in $OPENSHIFT_DATA_DIR/bin allows for backups to be created. Backups are automatically created during an upgrade, and can be used to restore the deployment if an upgrade fails.
+The generated backup is stored in $OPENSHIFT_DATA_DIR/backup.tar.gz
+
+The restore process is not implemented yet, but will be here soon.
 
 ## Versions
 Please change the branch to the major version of cachet that you want to install.
