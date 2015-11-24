@@ -1,49 +1,77 @@
-#!/bin/bash
+#####################################################
+## Management Utility for openshift-cachet         ##
+## Created by ALinuxNinja 2015                     ##
+## https://github.com/ALinuxNinja/openshift-cachet ##
+#####################################################
 
-## Set $PATH to bin dir
-PATH=$OPENSHIFT_DATA_DIR/bin:/bin:/usr/bin:/usr/sbin
+## Settings
+SUPPORTED_VER="v1"
 
-CACHET_DL_LINK=$(curl -s https://github.com/cachethq/Cachet/releases | grep "tar.gz" | head -n 1 | sed -e 's/^.*"\///;s/".*//')
-CACHET_DL_VERSION=$(echo $CACHET_DL_LINK | awk -F/ '{print $NF}')
+## Stick some functions here
+backup() {
+	echo "Performing Backup..."
+	## Backup SQL
+	mysqldump -h$DB_HOST -u$DB_USERNAME -p$DB_PASSWORD $DB_DATABASE > $OPENSHIFT_DATA_DIR/dbdump.sql
+	## Backup repo + .sql
+	cd $OPENSHIFT_REPO_DIR
+	tar czf $OPENSHIFT_DATA_DIR/backup.tar.gz Cachet -C $OPENSHIFT_DATA_DIR dbdump.sql
+	rm ../data/dbdump.sql
+	echo "Backup created at $OPENSHIFT_DATA_DIR/backup.tar.gz"
+}
 
-cd $OPENSHIFT_DATA_DIR
+upgrade() {
+	echo "Performing Upgrade..."
+	## Check for upgrade
+	## Remove original Cachet install
+	## Extract new Cachet install to repo
+	## Composer
+	## Migrate tables
+}
 
-if [ ! -f $OPENSHIFT_DATA_DIR/$CACHET_DL_VERSION ]; then
-	# Backups
-	echo -n "Do you want to create a backup? [Y/n] "
-	read backupchoice
-	case $backupchoice in
+## Output some nice ASCII
+echo "################################################"
+echo "## Management Utility for Cachet on OpenShift ##"
+echo "## Created by ALinuxNinja 2015                ##"
+echo "## Current Version: 1.0                       ##"
+echo "## Please report bugs to the Github repo      ##"
+echo "################################################"
+echo "== Upgrade Utility Update =="
+echo "Installed Version:$(md5sum mgmutil)"
+echo "== Upgrade Information =="
+## Get Latest Cachet Version that's supported
+CACHET_DL_LINK=$(curl -s https://github.com/cachethq/Cachet/releases | grep "tar.gz" | grep -i "$SUPPORTED_VER" | head -n 1 | sed -e 's/^.*"\///;s/".*//')
+CACHET_DL_VERSION=$(echo $CACHET_DL_LINK | sed -e 's#cachethq/Cachet/archive/v\(.*\).tar.gz#\1#')
 
-		[yY] | [yY][Ee][Ss] )
-                	echo "Creating Backup at $OPENSHIFT_DATA_DIR..."
-			tar czf $OPENSHIFT_DATA_DIR/backup-$(date +"%m-%d-%y").tar.gz $OPENSHIFT_REPO_DIR/Cachet
-               		 ;;
-
-	        [nN] | [n|N][O|o] )
-        	        echo "No backup will be created..."
-                	;;
-	        *) echo "Invalid input"
-			exit 1
-        		;;
-	esac
-	# Copy old env
-	cp $OPENSHIFT_REPO_DIR/Cachet/.env $OPENSHIFT_REPO_DIR/env
-	rm -rf /OPENSHIFT_REPO_DIR/Cachet
-
-	# Remove old Cachet
-	rm -rf $OPENSHIFT_REPO_DIR/Cachet
-        rm $OPENSHIFT_DATA_DIR/*.tar.gz
-        wget http://github.com/$CACHET_DL_LINK -O $CACHET_DL_VERSION
-        tar xvf $CACHET_DL_VERSION
-
-	# Install new Cachet
-	mv $OPENSHIFT_DATA_DIR/Cachet-* $OPENSHIFT_REPO_DIR/Cachet
-	cp $OPENSHIFT_REPO_DIR/env $OPENSHIFT_REPO_DIR/Cachet/.env
-	cd $OPENSHIFT_REPO_DIR/Cachet/
-	$OPENSHIFT_DATA_DIR/bin/php $OPENSHIFT_DATA_DIR/bin/composer.phar install --no-dev -o
-
-	## Migrate Database
-	$OPENSHIFT_DATA_DIR/bin/php artisan migrate
+## Check Current Cachet Version
+echo "Installed Version: $CACHET_VERSION"
+echo "Latest Supported Version: $CACHET_DL_VERSION"
+## Can we upgrade?
+if [[ $CACHET_VERSION < $CACHET_DL_VERSION ]]; then
+	echo "Upgrade Status: Upgrade Avaliable"
 else
-	echo "Upgrade not required, up to date"
+	echo "Upgrade Status:No Upgrade Avaliable"
 fi
+echo ""
+echo "Note from ALinuxNinja: Cachet v2 is not supported yet, support is coming soon!"
+
+## Do a check for the **old** hhvm setups
+if [[ -d $HOME/hhvm ]]; then
+	echo "== WARNING =="
+	echo "Old HHVM setup detected"
+	echo "Upgrade is NOT supported on the old HHVM setups."
+	echo "Please do an backup and restore."
+fi
+while true; do
+	echo "== Options =="
+	echo "a) Create Backup"
+	echo "b) Perform Upgrade"
+	echo ""
+	echo -n "Please enter your option: "
+	read optioncontent
+	echo ""
+	case $optioncontent in
+	a) backup; exit ;;
+	b) upgrade; exit ;;
+	?) echo "error: Unknown Option"; exit ;;
+		esac
+done
