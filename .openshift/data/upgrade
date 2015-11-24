@@ -12,9 +12,11 @@ backup() {
 	echo "Performing Backup..."
 	## Backup SQL
 	mysqldump -h$DB_HOST -u$DB_USERNAME -p$DB_PASSWORD $DB_DATABASE > $OPENSHIFT_DATA_DIR/dbdump.sql
+	## Backup Needed ENVs
+	mkdir -p $OPENSHIFT_DATA_DIR/
 	## Backup repo + .sql
 	cd $OPENSHIFT_REPO_DIR
-	tar czf $OPENSHIFT_DATA_DIR/backup.tar.gz Cachet -C $OPENSHIFT_DATA_DIR dbdump.sql
+	tar czf $OPENSHIFT_DATA_DIR/backup.tar.gz Cachet -C $OPENSHIFT_DATA_DIR dbdump.sql -C ~/.env/ user_vars
 	rm ../data/dbdump.sql
 	echo "Backup created at $OPENSHIFT_DATA_DIR/backup.tar.gz"
 }
@@ -24,6 +26,9 @@ upgrade() {
 		echo "No Upgrade Available"
 	else
 		echo "Performing Upgrade..."
+		echo "Downloading latest version of Cachet"
+		backup
+		echo "Installing new version"
 	fi
 }
 
@@ -34,8 +39,6 @@ echo "## Created by ALinuxNinja 2015                ##"
 echo "## Current Version: 1.0                       ##"
 echo "## Please report bugs to the Github repo      ##"
 echo "################################################"
-echo "== Upgrade Utility Update =="
-echo "Installed Version:$(md5sum mgmutil)"
 echo "== Upgrade Information =="
 ## Get Latest Cachet Version that's supported
 CACHET_DL_LINK=$(curl -s https://github.com/cachethq/Cachet/releases | grep "tar.gz" | grep -i "$SUPPORTED_VER" | head -n 1 | sed -e 's/^.*"\///;s/".*//')
@@ -47,10 +50,10 @@ echo "Latest Supported Version: $CACHET_DL_VERSION"
 ## Can we upgrade?
 if [[ $CACHET_VERSION < $CACHET_DL_VERSION ]]; then
 	echo "Upgrade Status: Upgrade Avaliable"
-	UPGRADE_AVAILABLE = True
+	UPGRADE_AVAILABLE=True
 else
 	echo "Upgrade Status:No Upgrade Avaliable"
-	UPGRADE_AVAILABLE = False
+	UPGRADE_AVAILABLE=False
 fi
 echo ""
 echo "Note from ALinuxNinja: Cachet v2 is not supported yet, support is coming soon!"
