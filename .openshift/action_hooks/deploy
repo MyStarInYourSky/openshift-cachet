@@ -66,14 +66,8 @@ if [ ! -d $OPENSHIFT_DATA_DIR/bin ]; then
 	mkdir $OPENSHIFT_DATA_DIR/bin
 fi
 
-<<<<<<< HEAD
-## Upgrade Script
-=======
-## Set $PATH to bin dir
-PATH=$OPENSHIFT_DATA_DIR/bin:/bin:/usr/bin:/usr/sbin
 
-## mgmutil Script
->>>>>>> Rename upgrade script
+## mgmutil script
 cp $OPENSHIFT_REPO_DIR/.openshift/data/mgmutil $OPENSHIFT_DATA_DIR/bin/mgmutil
 
 ## Install composer
