@@ -34,6 +34,9 @@ if [ -f $OPENSHIFT_REPO_DIR/backup.tar.gz ]; then
 	## Import MySQL
 	mysql -h $OPENSHIFT_MYSQL_DB_HOST --user=$OPENSHIFT_MYSQL_DB_USERNAME --password=$OPENSHIFT_MYSQL_DB_PASSWORD $OPENSHIFT_APP_NAME < dbdump.sql
 
+	## Copy ENV variables
+	cp user_vars/CACHET_VERSION ~/.env/user_vars/CACHET_VERSION
+
 ## Cachet Download Link and Version
 elif [ ! -d $OPENSHIFT_REPO_DIR/Cachet ]; then
 	CACHET_DL_LINK=$(curl -s https://github.com/cachethq/Cachet/releases | grep "tar.gz" | grep "v1." | head -n 1 | sed -e 's/^.*"\///;s/".*//')
@@ -63,10 +66,14 @@ if [ ! -d $OPENSHIFT_DATA_DIR/bin ]; then
 	mkdir $OPENSHIFT_DATA_DIR/bin
 fi
 
+<<<<<<< HEAD
 ## Set $PATH to bin dir
 PATH=$OPENSHIFT_DATA_DIR/bin:/bin:/usr/bin:/usr/sbin
 
 ## mgmutil Script
+=======
+## Upgrade Script
+>>>>>>> Clean up the script a little, add ENV migration
 cp $OPENSHIFT_REPO_DIR/.openshift/data/mgmutil $OPENSHIFT_DATA_DIR/bin/mgmutil
 
 ## Install composer
@@ -75,8 +82,10 @@ if [ ! -f $OPENSHIFT_DATA_DIR/bin/composer.phar ]; then
 fi
 
 ## Copy env
-cp $OPENSHIFT_REPO_DIR/env $OPENSHIFT_REPO_DIR/Cachet/.env
-cd $OPENSHIFT_REPO_DIR/Cachet
+if [ ! -f $OPENSHIFT_REPO_DIR/backup.tar.gz ]; then
+	cp $OPENSHIFT_REPO_DIR/env $OPENSHIFT_REPO_DIR/Cachet/.env
+	cd $OPENSHIFT_REPO_DIR/Cachet
+fi
 
 ## Composer install
 composer install --no-dev -o
