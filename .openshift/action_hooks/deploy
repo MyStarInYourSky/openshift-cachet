@@ -53,6 +53,9 @@ fi
 if [ ! -f $OPENSHIFT_REPO_DIR/backup.tar.gz ]; then
 	sed -i -e "s#php artisan#$OPENSHIFT_PHP_VERSION_DIR/bin/php artisan#g" $OPENSHIFT_REPO_DIR/Cachet/composer.json
 	sed -i -e "s#php -r#$OPENSHIFT_PHP_VERSION_DIR/bin/php -r#g" $OPENSHIFT_REPO_DIR/Cachet/composer.json
+else
+	## Fix PHP path
+	sed  -i -e "s#/var/lib/openshift.*php#$OPENSHIFT_PHP_VERSION_DIR/bin/php#g" $OPENSHIFT_REPO_DIR/Cachet/composer.json
 fi
 
 ## Create bin dir
