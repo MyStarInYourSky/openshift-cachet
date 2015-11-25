@@ -84,10 +84,10 @@ fi
 ## Copy env
 if [ ! -f $OPENSHIFT_REPO_DIR/backup.tar.gz ]; then
 	cp $OPENSHIFT_REPO_DIR/env $OPENSHIFT_REPO_DIR/Cachet/.env
-	cd $OPENSHIFT_REPO_DIR/Cachet
 fi
 
 ## Composer install
+cd $OPENSHIFT_REPO_DIR/Cachet
 composer install --no-dev -o
 
 ## Migrate Database
