@@ -37,8 +37,15 @@ if [ -f $OPENSHIFT_REPO_DIR/backup.tar.gz ]; then
 	## Copy ENV variables
 	cp user_vars/CACHET_VERSION ~/.env/user_vars/CACHET_VERSION
 
+	## Clean Up
+	rm $OPENSHIFT_REPO_DIR/backup.tar.gz
+        rm $OPENSHIFT_REPO_DIR/dbdump.sql
+
+	## This is a restore operation
+	RESTORE=True
+
 ## Cachet Download Link and Version
-elif [ ! -d $OPENSHIFT_REPO_DIR/Cachet ]; then
+elif [ $RESTORE != True ]; then
 	CACHET_DL_LINK=$(curl -s https://github.com/cachethq/Cachet/releases | grep "tar.gz" | grep "v1." | head -n 1 | sed -e 's/^.*"\///;s/".*//')
 	CACHET_DL_VERSION=$(echo $CACHET_DL_LINK | sed -e 's#cachethq/Cachet/archive/v\(.*\).tar.gz#\1#')
 	echo "$CACHET_DL_VERSION" > ~/.env/user_vars/CACHET_VERSION
@@ -53,7 +60,7 @@ elif [ ! -d $OPENSHIFT_REPO_DIR/Cachet ]; then
 fi
 
 ## Fix Cachet compser.json paths
-if [ ! -f $OPENSHIFT_REPO_DIR/backup.tar.gz ]; then
+if [ $RESTORE != True ]; then
 	sed -i -e "s#php artisan#$OPENSHIFT_PHP_VERSION_DIR/bin/php artisan#g" $OPENSHIFT_REPO_DIR/Cachet/composer.json
 	sed -i -e "s#php -r#$OPENSHIFT_PHP_VERSION_DIR/bin/php -r#g" $OPENSHIFT_REPO_DIR/Cachet/composer.json
 else
@@ -76,7 +83,7 @@ if [ ! -f $OPENSHIFT_DATA_DIR/bin/composer.phar ]; then
 fi
 
 ## Copy env
-if [ ! -f $OPENSHIFT_REPO_DIR/backup.tar.gz ]; then
+if [ $RESTORE != True ]; then
 	cp $OPENSHIFT_REPO_DIR/env $OPENSHIFT_REPO_DIR/Cachet/.env
 fi
 
@@ -88,6 +95,6 @@ composer install --no-dev -o
 php artisan migrate
 
 ## Generate Key
-if [ ! -f $OPENSHIFT_REPO_DIR/backup.tar.gz ]; then
+if [ $RESTORE != True ]; then
 	php artisan key:generate
 fi

@@ -1,7 +1,7 @@
 # Cachet for OpenShift
 [![OpenShift](http://launch-shifter.rhcloud.com/launch/Cachet On.svg)](https://openshift.redhat.com/app/console/application_type/custom?&cartridges%5B%5D=http://cartreflect-claytondev.rhcloud.com/github/boekkooi/openshift-cartridge-nginx&cartridges%5B%5D=http://cartreflect-claytondev.rhcloud.com/github/boekkooi/openshift-cartridge-php&cartridges%5B%5D=mysql-5.5&initial_git_url=https://github.com/ALinuxNinja/openshift-cachet.git&name=cachet&initial_git_branch=1.x)
 
-This installs the 1.x version of Cachet
+This installs the 1.x version of Cachet. Note that this is the STAGING version, and is only used for testing.
 
 Cachet for OpenShift automatically downloads the latest version of Cachet 1.x and installs it in a PHP-FPM based setup.
 
