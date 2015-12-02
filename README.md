@@ -19,6 +19,8 @@ Be sure to grab the latest script by running something like
 curl -L https://raw.githubusercontent.com/ALinuxNinja/openshift-cachet/master/.openshift/data/mgmutil > $OPENSHIFT_DATA_DIR/bin/mgmutil
 ```
 
+Note that if you have a big installation, the backup may not restore properly in the small gear due to disk quotas. Not much can be done about that, you will have to get a larger gear.
+
 ## Backup and Restore
 Mgmutil, located in $OPENSHIFT_DATA_DIR/bin allows for backups to be created. Backups are automatically created during an upgrade, and can be used to restore the deployment if an upgrade fails. If a upgrade fails, that is the fastest way to get your app back, so make sure you do a backup.
 The generated backup is stored in $OPENSHIFT_DATA_DIR/backup.tar.gz
