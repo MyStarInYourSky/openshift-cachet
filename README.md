@@ -14,7 +14,7 @@ Note that the script is experimental and may cause issues with your installation
 
 Be sure to grab the latest script by running something like
 ```
-curl -L https://raw.githubusercontent.com/ALinuxNinja/openshift-cachet/1.x/.openshift/data/mgmutil > $OPENSHIFT_DATA_DIR/bin/mgmutil
+curl -L https://raw.githubusercontent.com/ALinuxNinja/openshift-cachet/2.x/.openshift/data/mgmutil > $OPENSHIFT_DATA_DIR/bin/mgmutil
 ```
 
 ## Backup and Restore
