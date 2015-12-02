@@ -12,6 +12,11 @@ To install, just click the OpenShift button above.
 There is an experimental script called 'mgmutil' in $OPENSHIFT_DATA_DIR/bin
 Note that the script is experimental and may cause issues with your installation.
 
+Be sure to grab the latest script by running something like
+```
+curl -L https://raw.githubusercontent.com/ALinuxNinja/openshift-cachet/1.x/.openshift/data/mgmutil > $OPENSHIFT_DATA_DIR/bin/mgmutil
+```
+
 ## Backup and Restore
 Mgmutil, located in $OPENSHIFT_DATA_DIR/bin allows for backups to be created. Backups are automatically created during an upgrade, and can be used to restore the deployment if an upgrade fails. If a upgrade fails, that is the fastest way to get your app back, so make sure you do a backup.
 The generated backup is stored in $OPENSHIFT_DATA_DIR/backup.tar.gz
