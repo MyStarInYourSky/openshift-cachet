@@ -1,9 +1,11 @@
 # Cachet for OpenShift
-[![OpenShift](http://launch-shifter.rhcloud.com/launch/Cachet On.svg)](https://openshift.redhat.com/app/console/application_type/custom?&cartridges%5B%5D=http://cartreflect-claytondev.rhcloud.com/github/boekkooi/openshift-cartridge-nginx&cartridges%5B%5D=http://cartreflect-claytondev.rhcloud.com/github/boekkooi/openshift-cartridge-php&cartridges%5B%5D=mysql-5.5&initial_git_url=https://github.com/ALinuxNinja/openshift-cachet.git&name=cachet&initial_git_branch=2.x)
+[![OpenShift](http://launch-shifter.rhcloud.com/launch/Cachet On.svg)](https://openshift.redhat.com/app/console/application_type/custom?&cartridges%5B%5D=http://cartreflect-claytondev.rhcloud.com/github/boekkooi/openshift-cartridge-nginx&cartridges%5B%5D=http://cartreflect-claytondev.rhcloud.com/github/boekkooi/openshift-cartridge-php&cartridges%5B%5D=mysql-5.5&initial_git_url=https://github.com/ALinuxNinja/openshift-cachet.git&name=cachet&initial_git_branch=master)
 
 This installs the 2.x version of Cachet.
 
 Cachet for OpenShift automatically downloads the latest version of Cachet 2.x and installs it in a PHP-FPM based setup.
+
+There are older versions of Cachet avaliable for installation in the other branches if necessary.
 
 ## How to install
 To install, just click the OpenShift button above.
@@ -14,7 +16,7 @@ Note that the script is experimental and may cause issues with your installation
 
 Be sure to grab the latest script by running something like
 ```
-curl -L https://raw.githubusercontent.com/ALinuxNinja/openshift-cachet/2.x/.openshift/data/mgmutil > $OPENSHIFT_DATA_DIR/bin/mgmutil
+curl -L https://raw.githubusercontent.com/ALinuxNinja/openshift-cachet/master/.openshift/data/mgmutil > $OPENSHIFT_DATA_DIR/bin/mgmutil
 ```
 
 ## Backup and Restore
