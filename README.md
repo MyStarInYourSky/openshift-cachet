@@ -38,3 +38,7 @@ The backup will then be restored.
 ## Versions
 Please change the branch to the major version of cachet that you want to install.
 If it doesn't exist, it isn't supported yet.
+
+## Donations
+I spend a lot of time working on these projects and will appreciate any donations.
+They can be made to the following bitcoin address: 14b7yU4qYmhrYTX1MCVQ9kLYQKCNX3x7qL
