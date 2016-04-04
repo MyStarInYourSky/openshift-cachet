@@ -92,7 +92,7 @@ cd $OPENSHIFT_REPO_DIR/Cachet
 composer install --prefer-source --no-interaction --no-dev -o
 
 ## Migrate Database
-php artisan migrate
+php artisan migrate --force
 
 ## Generate Key
 if [[ $RESTORE != True ]]; then
