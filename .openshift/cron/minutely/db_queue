@@ -1,4 +1,4 @@
 #!/bin/bash
 
 cd $OPENSHIFT_REPO_DIR/Cachet
-$OPENSHIFT_PHP_VERSION_DIR/bin/php $OPENSHIFT_REPO_DIR/Cachet/artisan schedule:run
+$OPENSHIFT_PHP_VERSION_DIR/bin/php $OPENSHIFT_REPO_DIR/Cachet/artisan schedule:run >> /dev/null 2>&1
