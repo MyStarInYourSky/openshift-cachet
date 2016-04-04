@@ -10,6 +10,12 @@ There are older versions of Cachet avaliable for installation in the other branc
 ## How to install
 To install, just click the OpenShift button above.
 
+## Enabling Mail
+Mail is disabled by default. To enable it, fill in your credentials in $OPENSHIFT_REPO_DIR/Cachet, and run the following command in $OPENSHIFT_REPO_DIR/Cachet
+```
+$OPENSHIFT_PHP_VERSION_DIR/bin/php artisan config:cache
+```
+
 ## Upgrading
 There is an experimental script called 'mgmutil' in $OPENSHIFT_DATA_DIR/bin
 Note that the script is experimental and may cause issues with your installation.
