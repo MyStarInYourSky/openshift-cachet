@@ -11,7 +11,7 @@ There are older versions of Cachet avaliable for installation in the other branc
 To install, just click the OpenShift button above.
 
 ## Enabling Mail
-Mail is disabled by default. To enable it, fill in your credentials in $OPENSHIFT_REPO_DIR/Cachet, and run the following command in $OPENSHIFT_REPO_DIR/Cachet
+Mail is disabled by default. To enable it, fill in your credentials in $OPENSHIFT_REPO_DIR/Cachet/.env, and run the following command in $OPENSHIFT_REPO_DIR/Cachet
 ```
 $OPENSHIFT_PHP_VERSION_DIR/bin/php artisan config:cache
 ```
