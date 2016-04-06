@@ -89,7 +89,7 @@ fi
 
 ## Composer install
 cd $OPENSHIFT_REPO_DIR/Cachet
-composer install --prefer-source --no-interaction --no-dev -o
+composer install --prefer-dist --no-interaction
 
 ## Migrate Database
 php artisan migrate --force
