@@ -4,13 +4,15 @@ echo "============ Cachet now deploying ============"
 echo "=========== Created by ALinuxNinja ==========="
 source $OPENSHIFT_PHP_DIR/lib/util
 
-## OpenShift MySQL Vars
+## OpenShift Vars
+echo "http://$OPENSHIFT_APP_DNS" > ~/.env/user_vars/APP_URL
 echo "$OPENSHIFT_MYSQL_DB_HOST" > ~/.env/user_vars/DB_HOST
 echo "$OPENSHIFT_APP_NAME" > ~/.env/user_vars/DB_DATABASE
 echo "$OPENSHIFT_MYSQL_DB_USERNAME" > ~/.env/user_vars/DB_USERNAME
 echo "$OPENSHIFT_MYSQL_DB_PASSWORD" > ~/.env/user_vars/DB_PASSWORD
 echo "$OPENSHIFT_MYSQL_DB_PORT" > ~/.env/user_vars/DB_PORT
 
+export APP_URL="http://$OPENSHIFT_APP_DNS"
 export DB_HOST=$OPENSHIFT_MYSQL_DB_HOST
 export DB_DATABASE=$OPENSHIFT_APP_NAME
 export DB_USERNAME=$OPENSHIFT_MYSQL_DB_USERNAME

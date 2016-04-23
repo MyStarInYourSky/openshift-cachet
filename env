@@ -1,6 +1,5 @@
 APP_ENV=production
 APP_DEBUG=false
-APP_URL=http://primrose.com
 APP_KEY=LWvqPaQWVeaBKc8yEYz6Z1xYe92lIFMQ
 
 DB_DRIVER=mysql
