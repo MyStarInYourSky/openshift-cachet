@@ -5,8 +5,6 @@ This installs the 2.x version of Cachet.
 
 Cachet for OpenShift automatically downloads the latest version of Cachet 2.x and installs it in a PHP-FPM based setup.
 
-There are older versions of Cachet avaliable for installation in the other branches if necessary.
-
 ## How to install
 To install, just click the OpenShift button above.
 
@@ -27,6 +25,10 @@ curl -L https://raw.githubusercontent.com/ALinuxNinja/openshift-cachet/master/.o
 
 Note that if you have a big installation, the backup may not restore properly in the small gear due to disk quotas. Not much can be done about that, you will have to get a larger gear.
 
+### PHP
+To upgrade PHP, see instructions at https://github.com/boekkooi/openshift-cartridge-php
+By default, this uses the latest version of PHP avaliable at the time of launching the application.
+
 ## Backup and Restore
 Mgmutil, located in $OPENSHIFT_DATA_DIR/bin allows for backups to be created. Backups are automatically created during an upgrade, and can be used to restore the deployment if an upgrade fails. If a upgrade fails, that is the fastest way to get your app back, so make sure you do a backup.
 The generated backup is stored in $OPENSHIFT_DATA_DIR/backup.tar.gz
@@ -40,8 +42,3 @@ To restore, use the following process:
   5. Do a `git push origin`
 
 The backup will then be restored.
-
-## Versions
-1.x and 2.x are supported.
-
-To install 1.x, use the 1.x branch in the repo
