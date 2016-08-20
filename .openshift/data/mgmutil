@@ -57,7 +57,7 @@ upgrade() {
 		composer install --prefer-source --no-interaction --no-dev -o
 
 		## Migrate Database
-		php artisan migrate
+		php artisan migrate --force
 	fi
 }
 
