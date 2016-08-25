@@ -69,8 +69,7 @@ echo "## Please report bugs to the Github repo      ##"
 echo "################################################"
 echo "== Upgrade Information =="
 ## Get Latest Cachet Version that's supported
-CACHET_DL_LINK=$(curl -s https://github.com/cachethq/Cachet/releases | grep "tar.gz" | grep -i "$SUPPORTED_VER" | head -n 1 | sed -e 's/^.*"\///;s/".*//')
-CACHET_DL_VERSION=$(echo $CACHET_DL_LINK | sed -e 's#cachethq/Cachet/archive/v\(.*\).tar.gz#\1#')
+CACHET_DL_VERSION=$(curl -s https://github.com/cachethq/Cachet/releases | grep "tar.gz" | grep -i "$SUPPORTED_VER" | head -n 1 | sed -e 's#.*archive\/v\(.*\)\.tar\.gz.*#\1#')
 
 ## Check Current Cachet Version
 echo "Installed Version: $CACHET_VERSION"
