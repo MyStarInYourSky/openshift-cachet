@@ -76,7 +76,7 @@ CACHET_DL_VERSION=$(curl -s https://github.com/cachethq/Cachet/releases | grep "
 echo "Installed Version: $CACHET_VERSION"
 echo "Latest Supported Version: $CACHET_DL_VERSION"
 ## Can we upgrade?
-if [[ $CACHET_VERSION < $CACHET_DL_VERSION ]]; then
+if [[ $CACHET_VERSION != $CACHET_DL_VERSION ]]; then
 	echo "Upgrade Status: Upgrade Avaliable"
 	UPGRADE_AVAILABLE=True
 else
