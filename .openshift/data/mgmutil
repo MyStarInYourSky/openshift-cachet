@@ -60,6 +60,7 @@ upgrade() {
 		php artisan migrate --force
 	fi
 }
+function version_gt() { test "$(echo "$@" | tr " " "\n" | sort -V | head -n 1)" != "$1"; }
 
 ## Output some nice ASCII
 echo "################################################"
@@ -76,7 +77,7 @@ CACHET_DL_VERSION=$(curl -s https://github.com/cachethq/Cachet/releases | grep "
 echo "Installed Version: $CACHET_VERSION"
 echo "Latest Supported Version: $CACHET_DL_VERSION"
 ## Can we upgrade?
-if [[ $CACHET_VERSION != $CACHET_DL_VERSION ]]; then
+if version_gt $CACHET_DL_VERSION $CACHET_VERSION; then
 	echo "Upgrade Status: Upgrade Avaliable"
 	UPGRADE_AVAILABLE=True
 else
